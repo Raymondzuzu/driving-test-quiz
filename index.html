@@ -14,26 +14,31 @@
     const base='https://raw.githubusercontent.com/Raymondzuzu/driving-test-quiz/eb27ffd3c3fdc73cef787c9b2c021f1eac770047/index.html';
     let t=await (await fetch(base,{cache:'no-store'})).text();
 
-    const q61='{"id":61,"q":"自動車の運転は、認知、判断、操作に分けられ、このうちとくに大切なのは操作で、交通事故の大半は認知の誤りによって起きている。","a":false,"tip":"交通事故の大半が認知の誤りによって起きる、という後半は正しいが、『とくに大切なのは操作』が誤り。運転ではまず周囲を正しく認知することが特に重要。問題文の一部でも誤りなら×。"}';
-    t=t.replace('}];\nconst KEY = ', '},'+q61+'];\nconst KEY = ');
-    t=t.replace('全60問','全61問');
-    t=t.replace('60問すべて','61問すべて');
+    const extras=[
+      {id:61,q:'自動車の運転は、認知、判断、操作に分けられ、このうちとくに大切なのは操作で、交通事故の大半は認知の誤りによって起きている。',a:false,tip:'交通事故の大半が認知の誤りによって起きる、という後半は正しいが、「とくに大切なのは操作」が誤り。運転ではまず周囲を正しく認知することが特に重要。問題文の一部でも誤りなら×。'},
+      {id:62,q:'４００ccの自動二輪車に荷物を積む場合の高さ制限は地上２メートル以下とされている。',a:true,tip:'大型・普通自動二輪車の積載物は、積載した状態で地上から2m以下になるようにする。400ccは普通自動二輪車。'},
+      {id:63,q:'乗車定員１０人の自動車は普通免許で運転することができる。',a:true,tip:'普通自動車の乗車定員は10人以下。定員の基準では10人ちょうどまで普通免許の範囲。実際の車両では車両総重量3.5t未満・最大積載量2t未満の条件も確認する。'},
+      {id:64,q:'検査標章の色と数字は検査を受けた年月を表す。',a:false,tip:'検査標章が示すのは「検査を受けた年月」ではなく、車検証の有効期間が満了する時期。色は満了する年、数字は満了する月を表す。'},
+      {id:65,q:'通常の路側帯（白の実線1本）の設けられている道路で駐車する場合、左側に0.75メートル以上の余地を空けることができれば、路側帯の中へ入って駐車することができる。',a:true,tip:'通常の路側帯なら、歩行者用に左側0.75m以上を空けられる場合は路側帯に入って駐車できる。白実線＋破線や白2本線の路側帯には入れない。'},
+      {id:66,q:'乗車定員５人の乗用車には、運転者の他に１２歳の子供６人を乗せることができる。',a:false,tip:'「子供3人＝大人2人」として数える特例は12歳未満。12歳の子供は通常どおり1人として数えるので、定員5人の車に運転者＋12歳6人は乗せられない。'},
+      {id:67,q:'タイヤの空気圧が低い状態で高速走行を続けると、スタンディングウエーブ現象が起きる危険性がある。',a:true,tip:'空気圧不足で高速走行するとタイヤが波打つスタンディングウェーブ現象が起きやすく、発熱やバーストにつながる。'},
+      {id:68,q:'駐車禁止の標識は「規制標識」であり、停止線や中央線は「指示標示」である。',a:true,tip:'駐車禁止は交通方法を規制する「規制標識」。停止線・中央線は位置などを示す「指示標示」。'},
+      {id:69,q:'車の下から冷却水やオイルが漏れているときは故障が考えられるので運転してはならないが、空調装置からの排水は異常ではない。',a:true,tip:'冷却水やオイルの漏れは故障の可能性があり点検が必要。一方、エアコン使用時の無色透明な排水は通常の除湿水で異常ではない。'},
+      {id:70,q:'オートマチック車のクリープ現象とは、チェンジレバーがＤレンジに入っている状態でアクセルを踏まなくても動き出す現象をいう。',a:true,tip:'AT車はDレンジなどに入れると、アクセルを踏まなくてもゆっくり進む。これがクリープ現象。停止中はブレーキを確実に踏む。'},
+      {id:71,q:'時速６０キロメートル毎時の速度で衝突したときは、ビルの５階（約１４メートル）から落ちた場合と同程度の衝撃力を受けることになる。',a:true,tip:'60km/hで固定物に衝突する衝撃は、約14m（ビル5階程度）から落下した場合と同程度とされる。'},
+      {id:72,q:'故障車をロープでけん引する場合はけん引免許を持っていなくても運転することができる。',a:true,tip:'故障車をロープやクレーンなどでけん引する場合は、けん引免許は不要。ただし、けん引する車そのものを運転できる免許は必要。'},
+      {id:73,q:'往復の方向別に分離されている高速自動車国道での最低速度は５０キロメートル毎時である。',a:true,tip:'高速自動車国道の本線車道で、往復方向が分離され、最低速度の指定がない場合の法定最低速度は50km/h。やむを得ない場合などは例外。'},
+      {id:74,q:'総排気量１２５ccの自動二輪車は高速自動車国道だけでなく、自動車専用道路も通行することができない。',a:true,tip:'125cc以下の自動二輪車は、高速自動車国道も自動車専用道路も原則通行できない。「125ccちょうど」も禁止側。'},
+      {id:75,q:'消火栓から５メートル以内の場所では駐停車が禁止されている。',a:false,tip:'消火栓から5m以内は「駐車禁止」。停車まで一律に禁止される場所ではない。「駐停車禁止」とのすり替えに注意。'},
+      {id:76,q:'ＡＢＳ（アンチロック・ブレーキシステム）のついている車で急ブレーキをかけた場合にブレーキペダルが小刻みに振動するのは異常ではない。',a:true,tip:'ABS作動時はブレーキペダルが細かく振動したり作動音が出ることがあるが正常。ペダルを緩めず、強く踏み続ける。'}
+    ];
+    t=t.replace('}];\nconst KEY = ', '},'+extras.map(x=>JSON.stringify(x)).join(',')+'];\nconst KEY = ');
+    t=t.replace('全60問','全76問');
+    t=t.replace('60問すべて','76問すべて');
 
-    t=t.replace(
-      'return s && s.wrongCount>0 && s.lastCorrect!==true;',
-      'return s && s.wrongCount>0 && s.weakDismissed!==true;'
-    );
-
-    t=t.replace(
-      /lastAnsweredAt: null/g,
-      'lastAnsweredAt: null, weakDismissed: false'
-    );
-
-    t=t.replace(
-      's.lastCorrect = ok;\n  s.lastAnsweredAt = new Date().toISOString();\n  if(!ok) s.wrongCount += 1;',
-      's.lastCorrect = ok;\n  s.lastAnsweredAt = new Date().toISOString();\n  if(!ok) { s.wrongCount += 1; s.weakDismissed = false; }'
-    );
-
+    t=t.replace('return s && s.wrongCount>0 && s.lastCorrect!==true;','return s && s.wrongCount>0 && s.weakDismissed!==true;');
+    t=t.replace(/lastAnsweredAt: null/g,'lastAnsweredAt: null, weakDismissed: false');
+    t=t.replace('s.lastCorrect = ok;\n  s.lastAnsweredAt = new Date().toISOString();\n  if(!ok) s.wrongCount += 1;','s.lastCorrect = ok;\n  s.lastAnsweredAt = new Date().toISOString();\n  if(!ok) { s.wrongCount += 1; s.weakDismissed = false; }');
     t=t.replace(
 `function toggleWeak(id) {
   const s=state.byId[id];
@@ -58,15 +63,12 @@
   saveState();
   rebuildList();
   render();
-}`
-    );
+}`);
 
     document.open();
     document.write(t);
     document.close();
-  }catch(e){
-    document.getElementById('loading').innerHTML='読み込みに失敗しました。Safariで再読み込みしてください。';
-  }
+  }catch(e){document.getElementById('loading').innerHTML='読み込みに失敗しました。Safariで再読み込みしてください。';}
 })();
 </script>
 </body>
