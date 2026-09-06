@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>学科試験｜間違えた問題集</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;background:#f4f6fa;color:#172033;margin:0;padding:24px} .box{max-width:720px;margin:auto;background:#fff;border:1px solid #e1e6ee;border-radius:16px;padding:20px;line-height:1.7}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;background:#f4f6fa;color:#172033;margin:0;padding:24px}.box{max-width:720px;margin:auto;background:#fff;border:1px solid #e1e6ee;border-radius:16px;padding:20px;line-height:1.7}</style>
 </head>
 <body>
 <div class="box" id="loading">問題集を読み込んでいます…</div>
@@ -13,6 +13,11 @@
   try{
     const base='https://raw.githubusercontent.com/Raymondzuzu/driving-test-quiz/eb27ffd3c3fdc73cef787c9b2c021f1eac770047/index.html';
     let t=await (await fetch(base,{cache:'no-store'})).text();
+
+    const q61='{"id":61,"q":"自動車の運転は、認知、判断、操作に分けられ、このうちとくに大切なのは操作で、交通事故の大半は認知の誤りによって起きている。","a":false,"tip":"交通事故の大半が認知の誤りによって起きる、という後半は正しいが、『とくに大切なのは操作』が誤り。運転ではまず周囲を正しく認知することが特に重要。問題文の一部でも誤りなら×。"}';
+    t=t.replace('}];\nconst KEY = ', '},'+q61+'];\nconst KEY = ');
+    t=t.replace('全60問','全61問');
+    t=t.replace('60問すべて','61問すべて');
 
     t=t.replace(
       'return s && s.wrongCount>0 && s.lastCorrect!==true;',
@@ -54,11 +59,6 @@
   rebuildList();
   render();
 }`
-    );
-
-    t=t.replace(
-      'Correct answer marks it as mastered, but the historical wrongCount remains.',
-      'Once a question has any mistake history, it stays in the weak list until manually removed.'
     );
 
     document.open();
