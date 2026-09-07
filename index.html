@@ -21,6 +21,41 @@
     ];
     t=t.replace('}];\nconst KEY = ', '},'+extras.map(x=>JSON.stringify(x)).join(',')+'];\nconst KEY = ');
     t=t.replace('全94問','全98問');
+
+    // 回答した瞬間に「未回答」一覧から現在問が消えて次問へ飛ぶ不具合を修正。
+    // 採点結果を表示している間は現在のリストを固定する。
+    t=t.replace(
+      'function render(){\n  rebuildList(); updateStats();',
+      'function render(){\n  if(!answeredNow) rebuildList(); updateStats();'
+    );
+
+    // 「未回答」モードでは、次へを押した時点で回答済み問題を一覧から除外する。
+    // その際、同じインデックスに繰り上がった次問を表示し、1問飛ばさない。
+    t=t.replace(
+`function next(){
+  answeredNow=false; selectedNow=null;
+  rebuildList();
+  let i=currentIndex();
+  if(i < list.length-1) setCurrentIndex(i+1);
+  else setCurrentIndex(0);
+  render();
+}`,
+`function next(){
+  const wasAnswered = answeredNow;
+  answeredNow=false; selectedNow=null;
+  rebuildList();
+  let i=currentIndex();
+  if(mode==='unanswered' && wasAnswered){
+    if(i >= list.length) setCurrentIndex(Math.max(0,list.length-1));
+    else setCurrentIndex(i);
+  } else {
+    if(i < list.length-1) setCurrentIndex(i+1);
+    else setCurrentIndex(0);
+  }
+  render();
+}`
+    );
+
     document.open();
     document.write(t);
     document.close();
