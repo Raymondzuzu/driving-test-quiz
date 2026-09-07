@@ -22,6 +22,63 @@
     t=t.replace('}];\nconst KEY = ', '},'+extras.map(x=>JSON.stringify(x)).join(',')+'];\nconst KEY = ');
     t=t.replace('全94問','全98問');
 
+    // 問題範囲セレクターの見た目
+    t=t.replace(
+      '.summary{display:grid;',
+      '.rangebar{display:flex;align-items:center;gap:10px;margin:10px 0 12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}.rangebar label{font-size:13px;color:var(--sub);font-weight:700}.rangebar select{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#fff;color:var(--text);font:inherit}.summary{display:grid;'
+    );
+
+    // 全問題 / 苦手 / 未回答とは別に、問題番号で範囲を絞れるようにする
+    t=t.replace(
+`</div>\n\n<div class="summary">`,
+`</div>\n\n<div class="rangebar">\n  <label for="rangeSelect">問題範囲</label>\n  <select id="rangeSelect" onchange="setRange(this.value)">\n    <option value="allrange">すべて（1〜98）</option>\n    <option value="1-50">1〜50</option>\n    <option value="51-100">51〜100</option>\n  </select>\n</div>\n\n<div class="summary">`
+    );
+
+    // 範囲選択を保存
+    t=t.replace(
+      "let mode = state.mode || 'all';\nlet list = [];",
+      "let mode = state.mode || 'all';\nlet range = state.range || 'allrange';\nlet list = [];"
+    );
+    t=t.replace(
+      'state.mode = mode;\n  localStorage.setItem(KEY, JSON.stringify(state));',
+      'state.mode = mode;\n  state.range = range;\n  localStorage.setItem(KEY, JSON.stringify(state));'
+    );
+
+    // モードで絞った後に番号範囲でも絞る
+    t=t.replace(
+`  else list = QUESTIONS.slice();
+  let i = state.indexByMode[mode] || 0;`,
+`  else list = QUESTIONS.slice();
+  if(range==='1-50') list = list.filter(q => q.id >= 1 && q.id <= 50);
+  else if(range==='51-100') list = list.filter(q => q.id >= 51 && q.id <= 100);
+  let i = state.indexByMode[mode] || 0;`
+    );
+
+    // 範囲変更関数
+    t=t.replace(
+`function setMode(m){
+  mode=m; state.mode=m; answeredNow=false; selectedNow=null;
+  rebuildList(); saveState(); render();
+}`,
+`function setMode(m){
+  mode=m; state.mode=m; answeredNow=false; selectedNow=null;
+  state.indexByMode[m]=0;
+  rebuildList(); saveState(); render();
+}
+
+function setRange(r){
+  range=r; state.range=r; answeredNow=false; selectedNow=null;
+  state.indexByMode[mode]=0;
+  rebuildList(); saveState(); render();
+}`
+    );
+
+    // セレクター表示を保存値に同期
+    t=t.replace(
+      "document.getElementById('unansweredBtn').classList.toggle('active', mode==='unanswered');",
+      "document.getElementById('unansweredBtn').classList.toggle('active', mode==='unanswered');\n  const rs=document.getElementById('rangeSelect'); if(rs) rs.value=range;"
+    );
+
     // 回答した瞬間に「未回答」一覧から現在問が消えて次問へ飛ぶ不具合を修正。
     // 採点結果を表示している間は現在のリストを固定する。
     t=t.replace(
@@ -30,7 +87,6 @@
     );
 
     // 「未回答」モードでは、次へを押した時点で回答済み問題を一覧から除外する。
-    // その際、同じインデックスに繰り上がった次問を表示し、1問飛ばさない。
     t=t.replace(
 `function next(){
   answeredNow=false; selectedNow=null;
