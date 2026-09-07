@@ -17,24 +17,28 @@
       {id:95,q:'【画像問題：黄色の枠の内側に白い長方形が描かれた道路標示】この標示は、立入り禁止部分を表し、車が通行してはいけない部分であることを示す。',a:false,tip:'この標示は「安全地帯」。歩行者が安全に待つための場所で、立入り禁止部分の標示とは別。'},
       {id:96,q:'自車が優先道路を通行している場合を除き、交差点とその手前30メートル以内の場所では、前の車を追い越してはならない。',a:true,tip:'交差点とその手前30m以内は追越し禁止。ただし、自車が優先道路を通行している場合は例外。踏切・横断歩道・自転車横断帯とその手前30m以内も追越し禁止。'},
       {id:97,q:'【画像問題：道路中央に黄色の実線がある】この標示があるところでは、右折をしても構わない。',a:true,tip:'黄色の中央線は、追越しのための右側部分へのはみ出しを禁止する標示。右折そのものを禁止する標示ではない。'},
-      {id:98,q:'歩道がある道路で、車道の端に沿って駐車した。',a:true,tip:'歩道がある道路では、車道の左側端に沿って駐車する。歩道上に乗り上げて駐車してはいけない。'}
+      {id:98,q:'歩道がある道路で、車道の端に沿って駐車した。',a:true,tip:'歩道がある道路では、車道の左側端に沿って駐車する。歩道上に乗り上げて駐車してはいけない。'},
+      {id:99,q:'路面電車を追い越す場合は、原則としてその右側を通行する。',a:false,tip:'路面電車を追い越すときは原則として左側を通行する。ただし、軌道敷が道路の左端にある場合などは右側を通行する。'},
+      {id:100,q:'警笛鳴らせの標識のある場所では、見通しのきかない交差点、曲がり角、上り坂の頂上を通るときは、警音器を使用しなければならない。',a:false,tip:'「警笛鳴らせ」の標識がある場所では、その場所を通行するときは必ず警音器を鳴らす。問題文は「警笛区間」のルールと混同している。'},
+      {id:101,q:'原動機付自転車は、自動車には含まれない。',a:true,tip:'道路交通法上、原動機付自転車は自動車とは別区分で、自動車には含まれない。'},
+      {id:102,q:'転回の合図を行う時期は、転回の約30メートル手前である。',a:true,tip:'転回の合図は、転回しようとする地点の約30m手前で行う。'},
+      {id:103,q:'フットブレーキが故障したため、ハンドブレーキを使って停止を試みた。',a:true,tip:'フットブレーキ故障時は、エンジンブレーキを使いながらハンドブレーキを徐々にかけて停止を試みる。'},
+      {id:104,q:'【画像問題：黄色の枠の内側に白い長方形が描かれた道路標示】この標示は、安全地帯を示す。',a:true,tip:'黄色の枠の中に白い長方形がある標示は安全地帯を示す。'},
+      {id:105,q:'【画像問題：道路中央に黄色の実線がある】この標示があるところでは、右折をしても構わない。',a:true,tip:'黄色の中央線は、追越しのための右側部分へのはみ出しを禁止するもの。右折は禁止していない。'}
     ];
     t=t.replace('}];\nconst KEY = ', '},'+extras.map(x=>JSON.stringify(x)).join(',')+'];\nconst KEY = ');
-    t=t.replace('全94問','全98問');
+    t=t.replace('全94問','全105問');
 
-    // 問題範囲セレクターの見た目
     t=t.replace(
       '.summary{display:grid;',
       '.rangebar{display:flex;align-items:center;gap:10px;margin:10px 0 12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}.rangebar label{font-size:13px;color:var(--sub);font-weight:700}.rangebar select{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#fff;color:var(--text);font:inherit}.summary{display:grid;'
     );
 
-    // 全問題 / 苦手 / 未回答とは別に、問題番号で範囲を絞れるようにする
     t=t.replace(
 `</div>\n\n<div class="summary">`,
-`</div>\n\n<div class="rangebar">\n  <label for="rangeSelect">問題範囲</label>\n  <select id="rangeSelect" onchange="setRange(this.value)">\n    <option value="allrange">すべて（1〜98）</option>\n    <option value="1-50">1〜50</option>\n    <option value="51-100">51〜100</option>\n  </select>\n</div>\n\n<div class="summary">`
+`</div>\n\n<div class="rangebar">\n  <label for="rangeSelect">問題範囲</label>\n  <select id="rangeSelect" onchange="setRange(this.value)">\n    <option value="allrange">すべて（1〜105）</option>\n    <option value="1-50">1〜50</option>\n    <option value="51-100">51〜100</option>\n    <option value="101-150">101〜105</option>\n  </select>\n</div>\n\n<div class="summary">`
     );
 
-    // 範囲選択を保存
     t=t.replace(
       "let mode = state.mode || 'all';\nlet list = [];",
       "let mode = state.mode || 'all';\nlet range = state.range || 'allrange';\nlet list = [];"
@@ -44,17 +48,16 @@
       'state.mode = mode;\n  state.range = range;\n  localStorage.setItem(KEY, JSON.stringify(state));'
     );
 
-    // モードで絞った後に番号範囲でも絞る
     t=t.replace(
 `  else list = QUESTIONS.slice();
   let i = state.indexByMode[mode] || 0;`,
 `  else list = QUESTIONS.slice();
   if(range==='1-50') list = list.filter(q => q.id >= 1 && q.id <= 50);
   else if(range==='51-100') list = list.filter(q => q.id >= 51 && q.id <= 100);
+  else if(range==='101-150') list = list.filter(q => q.id >= 101 && q.id <= 150);
   let i = state.indexByMode[mode] || 0;`
     );
 
-    // 範囲変更関数
     t=t.replace(
 `function setMode(m){
   mode=m; state.mode=m; answeredNow=false; selectedNow=null;
@@ -73,20 +76,16 @@ function setRange(r){
 }`
     );
 
-    // セレクター表示を保存値に同期
     t=t.replace(
       "document.getElementById('unansweredBtn').classList.toggle('active', mode==='unanswered');",
       "document.getElementById('unansweredBtn').classList.toggle('active', mode==='unanswered');\n  const rs=document.getElementById('rangeSelect'); if(rs) rs.value=range;"
     );
 
-    // 回答した瞬間に「未回答」一覧から現在問が消えて次問へ飛ぶ不具合を修正。
-    // 採点結果を表示している間は現在のリストを固定する。
     t=t.replace(
       'function render(){\n  rebuildList(); updateStats();',
       'function render(){\n  if(!answeredNow) rebuildList(); updateStats();'
     );
 
-    // 「未回答」モードでは、次へを押した時点で回答済み問題を一覧から除外する。
     t=t.replace(
 `function next(){
   answeredNow=false; selectedNow=null;
