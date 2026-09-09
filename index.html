@@ -1,1 +1,27 @@
-__CONTENT_FROM_LOCAL_FILE__
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>学科試験｜間違えた問題集</title></head><body><div style="font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;padding:32px;text-align:center">問題を読み込み中…</div><script>
+(async()=>{
+const base='https://raw.githubusercontent.com/Raymondzuzu/driving-test-quiz/c11ecf88ca6a46b63f3bf1b577f9e43efd66f9a7/index.html';
+const extra=[
+{id:132,q:'夜間、一般道路に普通自動車を駐停車する場合は、車の後方に停止表示器材を置けば、非常点滅表示灯等をつける必要はない。',a:true,tip:'正しい。一般道路では停止表示器材を置くことで、非常点滅表示灯等を必ずつける必要はない。高速道路での駐停車では、停止表示器材に加えて非常点滅表示灯等も必要。'},
+{id:133,q:'信号機がある踏切で信号機が青色を示している場合でも、車は直前で一時停止しなければならない。',a:false,tip:'踏切に信号機があり青色を示している場合は、左右の安全を確認すれば一時停止する必要はない。'},
+{id:134,q:'故障車をロープやクレーンでけん引する場合は、けん引免許は必要ない。',a:true,tip:'故障車をロープやクレーンなどでけん引する場合、けん引免許は不要。'},
+{id:135,q:'長い下り坂でブレーキを頻繁に使うと、ハイドロプレーニング現象が起きることがあるので、エンジンブレーキを十分に活用する。',a:false,tip:'長い下り坂でブレーキを多用した場合に起こりやすいのは、ハイドロプレーニングではなくベーパーロック現象やフェード現象。エンジンブレーキを活用する。'},
+{id:136,q:'横断歩道や自転車横断帯の前後30メートルは、追い越し禁止である。',a:false,tip:'追越し禁止なのは横断歩道・自転車横断帯と、その手前30メートル。向こう側30メートルまで一律に禁止ではない。'},
+{id:137,q:'こう配の急な坂の頂上付近は駐停車禁止だが、こう配の急な坂の途中は駐停車禁止ではない。',a:false,tip:'こう配の急な坂は、頂上付近だけでなく途中も駐停車禁止。'},
+{id:138,q:'自家用の普通乗用自動車は、1年ごとに定期点検を行わなければならない。',a:true,tip:'自家用の普通乗用自動車は1年ごとに定期点検を行う必要がある。'},
+{id:139,q:'貨物自動車の荷台には、荷物の積み下ろしのための最小限必要な人のみ例外的に乗ってよい。',a:false,tip:'荷台への乗車が例外的に認められるのは、荷物を見張るための最小限必要な人。積み下ろしのため、という記述は誤り。'},
+{id:140,q:'5分を超える人の乗り降りのための停止は、停車である。',a:true,tip:'人の乗り降りのための停止は、5分を超えても停車として扱われる。'},
+{id:141,q:'乗り降りのために停止している通学バスのそばを通るときは、徐行して進行すればよい。',a:true,tip:'乗り降りのために停止している通学バスのそばを通るときは、一時停止または徐行して進行する。'},
+{id:142,q:'普通自動車には、車体から左右に0.15メートルまではみ出して荷物を積むことができる。',a:false,tip:'普通自動車は、車体の左右それぞれについて車体の幅の10分の1以下まで、はみ出して荷物を積むことができる。左右それぞれ0.15mという基準は二輪車・原動機付自転車。'},
+{id:143,q:'自家用の普通自動車は、1日1回、運行前に日常点検を行わなければならない。',a:false,tip:'自家用普通自動車の日常点検は、1日1回と一律に決まっているわけではなく、運行状態や走行距離などを考えて適切な時期に行う。'},
+{id:144,q:'白杖を持った人の傍を通ったので、徐行して通行を妨げないようにした。',a:true,tip:'白杖や黄色の杖を持つ人などのそばを通るときは、一時停止または徐行して、その通行を妨げないようにする。'}
+];
+try{
+ let html=await (await fetch(base,{cache:'no-store'})).text();
+ if(!html.includes('const QUESTIONS = [')) throw new Error('base load');
+ html=html.replace(/const QUESTIONS = (\[.*?\]);\nconst KEY/s,(m,a)=>{const q=JSON.parse(a); return 'const QUESTIONS = '+JSON.stringify(q.concat(extra))+';\nconst KEY';});
+ html=html.replaceAll('全131問','全144問').replaceAll('すべて（1〜131）','すべて（1〜144）').replaceAll('101〜131','101〜144').replaceAll('131問すべての回答履歴と苦手記録をリセットしますか？','144問すべての回答履歴と苦手記録をリセットしますか？');
+ document.open();document.write(html);document.close();
+}catch(e){document.body.innerHTML='<div style="font-family:-apple-system,BlinkMacSystemFont,Hiragino Sans,sans-serif;padding:32px;text-align:center"><h2>問題の読み込みに失敗しました。</h2><p>Safariで再読み込みしてください。</p></div>';}
+})();
+</script></body></html>
