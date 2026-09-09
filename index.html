@@ -1,27 +1,247 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>学科試験｜間違えた問題集</title></head><body><div style="font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;padding:32px;text-align:center">問題を読み込み中…</div><script>
-(async()=>{
-const base='https://raw.githubusercontent.com/Raymondzuzu/driving-test-quiz/c11ecf88ca6a46b63f3bf1b577f9e43efd66f9a7/index.html';
-const extra=[
-{id:132,q:'夜間、一般道路に普通自動車を駐停車する場合は、車の後方に停止表示器材を置けば、非常点滅表示灯等をつける必要はない。',a:true,tip:'正しい。一般道路では停止表示器材を置くことで、非常点滅表示灯等を必ずつける必要はない。高速道路での駐停車では、停止表示器材に加えて非常点滅表示灯等も必要。'},
-{id:133,q:'信号機がある踏切で信号機が青色を示している場合でも、車は直前で一時停止しなければならない。',a:false,tip:'踏切に信号機があり青色を示している場合は、左右の安全を確認すれば一時停止する必要はない。'},
-{id:134,q:'故障車をロープやクレーンでけん引する場合は、けん引免許は必要ない。',a:true,tip:'故障車をロープやクレーンなどでけん引する場合、けん引免許は不要。'},
-{id:135,q:'長い下り坂でブレーキを頻繁に使うと、ハイドロプレーニング現象が起きることがあるので、エンジンブレーキを十分に活用する。',a:false,tip:'長い下り坂でブレーキを多用した場合に起こりやすいのは、ハイドロプレーニングではなくベーパーロック現象やフェード現象。エンジンブレーキを活用する。'},
-{id:136,q:'横断歩道や自転車横断帯の前後30メートルは、追い越し禁止である。',a:false,tip:'追越し禁止なのは横断歩道・自転車横断帯と、その手前30メートル。向こう側30メートルまで一律に禁止ではない。'},
-{id:137,q:'こう配の急な坂の頂上付近は駐停車禁止だが、こう配の急な坂の途中は駐停車禁止ではない。',a:false,tip:'こう配の急な坂は、頂上付近だけでなく途中も駐停車禁止。'},
-{id:138,q:'自家用の普通乗用自動車は、1年ごとに定期点検を行わなければならない。',a:true,tip:'自家用の普通乗用自動車は1年ごとに定期点検を行う必要がある。'},
-{id:139,q:'貨物自動車の荷台には、荷物の積み下ろしのための最小限必要な人のみ例外的に乗ってよい。',a:false,tip:'荷台への乗車が例外的に認められるのは、荷物を見張るための最小限必要な人。積み下ろしのため、という記述は誤り。'},
-{id:140,q:'5分を超える人の乗り降りのための停止は、停車である。',a:true,tip:'人の乗り降りのための停止は、5分を超えても停車として扱われる。'},
-{id:141,q:'乗り降りのために停止している通学バスのそばを通るときは、徐行して進行すればよい。',a:true,tip:'乗り降りのために停止している通学バスのそばを通るときは、一時停止または徐行して進行する。'},
-{id:142,q:'普通自動車には、車体から左右に0.15メートルまではみ出して荷物を積むことができる。',a:false,tip:'普通自動車は、車体の左右それぞれについて車体の幅の10分の1以下まで、はみ出して荷物を積むことができる。左右それぞれ0.15mという基準は二輪車・原動機付自転車。'},
-{id:143,q:'自家用の普通自動車は、1日1回、運行前に日常点検を行わなければならない。',a:false,tip:'自家用普通自動車の日常点検は、1日1回と一律に決まっているわけではなく、運行状態や走行距離などを考えて適切な時期に行う。'},
-{id:144,q:'白杖を持った人の傍を通ったので、徐行して通行を妨げないようにした。',a:true,tip:'白杖や黄色の杖を持つ人などのそばを通るときは、一時停止または徐行して、その通行を妨げないようにする。'}
-];
-try{
- let html=await (await fetch(base,{cache:'no-store'})).text();
- if(!html.includes('const QUESTIONS = [')) throw new Error('base load');
- html=html.replace(/const QUESTIONS = (\[.*?\]);\nconst KEY/s,(m,a)=>{const q=JSON.parse(a); return 'const QUESTIONS = '+JSON.stringify(q.concat(extra))+';\nconst KEY';});
- html=html.replaceAll('全131問','全144問').replaceAll('すべて（1〜131）','すべて（1〜144）').replaceAll('101〜131','101〜144').replaceAll('131問すべての回答履歴と苦手記録をリセットしますか？','144問すべての回答履歴と苦手記録をリセットしますか？');
- document.open();document.write(html);document.close();
-}catch(e){document.body.innerHTML='<div style="font-family:-apple-system,BlinkMacSystemFont,Hiragino Sans,sans-serif;padding:32px;text-align:center"><h2>問題の読み込みに失敗しました。</h2><p>Safariで再読み込みしてください。</p></div>';}
-})();
-</script></body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>学科試験｜間違えた問題集</title>
+<style>
+:root {
+  --bg:#f4f6fa; --card:#fff; --text:#172033; --sub:#667085; --line:#e1e6ee;
+  --blue:#2f6fec; --blueSoft:#edf3ff; --green:#126a3e; --greenBg:#eaf8f0;
+  --red:#a72828; --redBg:#fff0f0; --amber:#9a6700; --amberBg:#fff7db;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif}
+button{font:inherit}
+.wrap{max-width:760px;margin:auto;padding:16px 14px 40px}
+header{margin-bottom:14px}
+h1{font-size:22px;margin:0 0 4px}
+.sub{font-size:13px;color:var(--sub);line-height:1.5}
+.toolbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:14px 0}
+.mode{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 6px;color:var(--blue);font-weight:700}
+.mode.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.rangebar{display:flex;align-items:center;gap:10px;margin:10px 0 12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}.rangebar label{font-size:13px;color:var(--sub);font-weight:700}.rangebar select{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#fff;color:var(--text);font:inherit}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:10px 6px;text-align:center}
+.stat .label{font-size:12px;color:var(--sub)}
+.stat b{display:block;font-size:20px;margin-top:2px}
+.progress{height:8px;background:#e7ebf1;border-radius:99px;overflow:hidden;margin:12px 0 18px}
+.bar{height:100%;background:var(--blue);width:0;transition:width .2s}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 4px 16px rgba(24,32,51,.04)}
+.meta{display:flex;justify-content:space-between;gap:10px;color:var(--sub);font-size:13px;margin-bottom:14px}
+.q{font-size:20px;line-height:1.7;font-weight:700;min-height:185px;display:flex;align-items:center}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.answer{border:2px solid transparent;border-radius:16px;background:var(--blueSoft);color:var(--blue);font-size:34px;font-weight:800;padding:17px 8px}
+.answer.selected{border-color:var(--blue);background:#dce9ff}
+.answer:disabled{opacity:.72}
+.feedback{display:none;margin-top:16px;border-radius:14px;padding:15px;line-height:1.55}
+.feedback.good{display:block;background:var(--greenBg);color:var(--green)}
+.feedback.bad{display:block;background:var(--redBg);color:var(--red)}
+.feedback .tip{color:var(--text);margin-top:8px}
+.actions{display:flex;gap:8px;margin-top:16px}
+.secondary,.primary,.warn{border-radius:12px;padding:11px 14px;border:1px solid var(--line)}
+.secondary{background:#fff;color:var(--text)}
+.primary{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700;margin-left:auto}
+.warn{background:var(--amberBg);color:var(--amber);border-color:#f0d98a}
+.empty,.finish{text-align:center;padding:28px 8px}
+.empty h2,.finish h2{font-size:24px;margin:0 0 8px}
+.small{font-size:12px;color:var(--sub);line-height:1.5}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.badge.wrong{background:var(--redBg);color:var(--red)}
+.badge.mastered{background:var(--greenBg);color:var(--green)}
+.restore{margin-top:12px;width:100%}
+.notice{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12px;color:var(--sub);line-height:1.5}
+@media (max-width:520px){
+  .q{font-size:19px;min-height:220px}
+  .toolbar{grid-template-columns:1fr 1fr}
+  .toolbar .mode:last-child{grid-column:1 / -1}
+  .summary{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>学科試験｜間違えた問題集</h1>
+  <div class="sub">Safari保存版：正解・不正解・回答済み・苦手を端末内に保存。苦手は手動解除するまで残ります</div>
+</header>
+
+<div class="toolbar">
+  <button id="allBtn" class="mode active" onclick="setMode('all')">全144問</button>
+  <button id="wrongBtn" class="mode" onclick="setMode('wrong')">苦手だけ</button>
+  <button id="unansweredBtn" class="mode" onclick="setMode('unanswered')">未回答</button>
+</div>
+
+<div class="rangebar">
+  <label for="rangeSelect">問題範囲</label>
+  <select id="rangeSelect" onchange="setRange(this.value)">
+    <option value="allrange">すべて（1〜144）</option>
+    <option value="1-50">1〜50</option>
+    <option value="51-100">51〜100</option>
+    <option value="101-150">101〜144</option>
+  </select>
+</div>
+
+<div class="summary">
+  <div class="stat"><div class="label">正解</div><b id="correctStat">0</b></div>
+  <div class="stat"><div class="label">不正解</div><b id="incorrectStat">0</b></div>
+  <div class="stat"><div class="label">回答済み</div><b id="answeredStat">0</b></div>
+  <div class="stat"><div class="label">苦手</div><b id="weakStat">0</b></div>
+</div>
+
+<div class="progress"><div id="bar" class="bar"></div></div>
+<div id="app" class="card"></div>
+
+<div class="notice">
+  保存先はSafariの端末内データです。Safariの「履歴とWebサイトデータ」を消した場合や、別の端末・ブラウザで開いた場合は引き継がれません。
+</div>
+</div>
+
+<script>
+const QUESTIONS = [{"id":1,"q":"エンジンなどから水やオイルなどがもれるのは、たとえその量が少量であっても異常である。","a":true,"tip":"漏れは量に関係なく異常。少量でも点検が必要。"},{"id":2,"q":"信号機の信号が赤色になっても、交差点ですでに右折している車はそのまま進行することができる。","a":true,"tip":"すでに交差点内で右折中なら、安全を確認して速やかに右折を完了する。"},{"id":3,"q":"車両は、車両通行帯の有無に関係なく、トンネルの中は追い越しが禁止されている。","a":false,"tip":"「車両通行帯の有無に関係なく」が誤り。車両通行帯のないトンネルでは追越し禁止。"},{"id":4,"q":"車両は、交差点とその側端から５メートル以内の部分には、駐車も停車もしてはならない。","a":true,"tip":"交差点＝5m以内は駐停車禁止。"},{"id":5,"q":"交通整理中の警察官が腕を垂直に上げているとき、警察官の身体の正面に対面する交通については、信号機の赤色の灯火の信号と同じ意味である。","a":false,"tip":"腕を垂直に上げた場合、正面・背面は黄色、側面方向は赤。"},{"id":6,"q":"車両等は、一時停止の標識があるときは停止線の直前で、停止線がないときは交差点の直前で一時停止しなければならない。","a":true,"tip":"停止線あり→停止線の直前。なし→交差点の直前。"},{"id":7,"q":"自動車または一般原動機付自転車を運転中、横断歩道や自転車横断帯の手前で止まっている車があるときは、その側方を通過して前方に出る前に一時停止しなければならない。","a":true,"tip":"停止車両の陰に歩行者がいる可能性があるため、一時停止が必要。"},{"id":8,"q":"正面の信号が青色のときは、車は直進し、左折し、右折することができる。","a":false,"tip":"「車」がひっかけ。自転車などの軽車両は右折方法が異なる。"},{"id":9,"q":"車両は一方通行になっている道路では道路の中央から右の部分にはみ出して通行することができる。","a":true,"tip":"一方通行では道路中央より右側部分を通行できる。"},{"id":10,"q":"車両は、歩道や路側帯のない道路では、道路の左側端に沿って駐車しなければならない。","a":true,"tip":"歩道・路側帯なし→道路の左端に沿って駐車。"},{"id":11,"q":"オートマチック車のエンジンを始動するときは、ハンドブレーキをかけ、チェンジレバーがＰ（パーキング）の位置にあることを確認し、ブレーキペダルを踏んで始動する。","a":true,"tip":"AT車の始動は「ハンドブレーキ→P→ブレーキ→始動」。"},{"id":12,"q":"けん引のための構造装置のある車で、車両総重量７５０Ｋｇのけん引されるための構造装置のある車をけん引するときは、けん引免許はいらない。","a":true,"tip":"750kg以下ならけん引免許不要。750kgを超えると必要。"},{"id":13,"q":"交差点で、警察官が「止まれ」の手信号をしていたので、警察官の１メートル手前で停止した。","a":false,"tip":"交差点では通常の停止位置に従う。警察官1m手前は交差点などがない場合。"},{"id":14,"q":"ブレーキペダルを強く踏んだとき、スポンジを踏んだようにフワフワした感じがするときは、ブレーキ液がもれている。","a":false,"tip":"フワフワはブレーキ系統への空気混入などが考えられ、単純に液漏れと断定できない。"},{"id":15,"q":"車を運転している場合、「止まれ」の標識と「赤色の灯火の点滅」信号は同じ意味をもつ。","a":true,"tip":"車にとって赤点滅＝一時停止。黄色点滅は注意して進行。"},{"id":16,"q":"高速道路における大型貨物自動車の最高速度は９０キロメートル毎時である。","a":true,"tip":"大型貨物自動車の高速道路での法定最高速度は90km/h。"},{"id":17,"q":"オートマチック車は、駐車して車から離れるとき、チェンジレバーを上り坂ではＬ、平地や下り坂ではＲの位置に入れておく。","a":false,"tip":"AT車で離れるときはP＋パーキングブレーキ。"},{"id":18,"q":"自動車の右側に３.５メートルの余地がない道路で、荷物を積むため車のそばで運転者がさしずしながら１０分間車を止めた。","a":true,"tip":"貨物の積み卸しで、運転者が離れず直ちに運転できる状態なら例外がある。"},{"id":19,"q":"下り坂でフットブレーキがきかなくなったときは、ハンドブレーキを引いても効果がないので、山側のみぞに車輪を落としたり、道路わきの土砂などに突っ込んで止めるほかに方法はない。","a":false,"tip":"ハンドブレーキ（パーキングブレーキ）を徐々に使う方法もある。"},{"id":20,"q":"停止位置の直前で信号が赤色に変わっても、安全に停止できないときはそのまま進行してもよい。","a":false,"tip":"安全停止できない場合に進める例外は黄色信号。赤信号ではない。"},{"id":21,"q":"歩行者用道路は、警察署長の許可を受ければ通行することができるが、歩行者がいてもいなくても、必ず徐行しなければならない。","a":true,"tip":"許可車で歩行者用道路を通行する場合は徐行が必要。"},{"id":22,"q":"交通整理の行われていない交差点では、道幅が同じであれば先に交差点に入った車が優先する。","a":false,"tip":"基本は左方優先。"},{"id":23,"q":"トラックに荷物を積み、荷物の見張りのために荷台に一人乗せるときは、警察署長の許可はいらない。","a":true,"tip":"荷物の見張りに必要最小限の人員なら許可不要。"},{"id":24,"q":"自動二輪車や一般原動機付自転車に荷物を積む場合、荷台の後方に３０センチメートルまではみ出して積んでもよい。","a":true,"tip":"二輪車・原付は前後30cm、左右15cmまで。"},{"id":25,"q":"安全地帯の左側と、その前後１０メートル以内の場所では追越しが禁止されている。","a":false,"tip":"これは追越し禁止ではなく駐停車禁止。"},{"id":26,"q":"フェード現象とは、ブレーキ液の中に気泡が生じ、ブレーキペダルを踏んでも油圧が伝えられないため、ブレーキがきかなくなることである。","a":false,"tip":"これはベーパーロック。フェード＝摩擦材過熱で摩擦力低下。"},{"id":27,"q":"普通免許を受けていれば、１.８トン積みのトラックを運転することができる。","a":true,"tip":"普通免許は最大積載量2t未満・車両総重量3.5t未満。"},{"id":28,"q":"二輪免許では、自動二輪車と一般原動機付自転車を運転することができるが、小型特殊自動車を運転することはできない。","a":false,"tip":"二輪免許では小型特殊も運転可。"},{"id":29,"q":"小型特殊免許では、小型特殊自動車と一般原動機付自転車が運転できる。","a":false,"tip":"小型特殊免許で運転できるのは小型特殊のみ。"},{"id":30,"q":"高速道路で大型・普通自動二輪車の二人乗りができるのは、自動二輪車の運転経験３年以上で年齢が２０才以上でなければならない。","a":true,"tip":"高速道路の二人乗りは20歳以上かつ二輪免許歴3年以上。"},{"id":31,"q":"大型免許では大型自動二輪車は運転できない。","a":true,"tip":"大型免許と大型二輪免許は別。"},{"id":32,"q":"砂利道は、舗装道路に比べて摩擦力が小さい。","a":true,"tip":"砂利道はタイヤが路面をつかみにくい。"},{"id":33,"q":"最大積載量が４トンの車は、準中型自動車である。","a":true,"tip":"準中型の最大積載量は2t以上4.5t未満。"},{"id":34,"q":"普通運転免許を受けている者は、車両総重量が３トンの車を運転できる。","a":true,"tip":"普通免許は車両総重量3.5t未満。"},{"id":35,"q":"乗車定員が２０人の車を運転するには、準中型免許が必要である。","a":false,"tip":"準中型は乗車定員10人以下。20人は中型。"},{"id":36,"q":"普通免許を受けている者は、最大積載量が２トンの車を運転できる。","a":false,"tip":"普通は2t未満。2tちょうどは含まれない。"},{"id":37,"q":"車両総重量が７トンの車は、中型自動車である。","a":false,"tip":"3.5t以上7.5t未満は準中型。"},{"id":38,"q":"車は、軌道敷内を通行できない上に、軌道敷を横切ってもならない。","a":false,"tip":"軌道敷内通行は原則禁止だが、右左折・横断のため横切ることはある。"},{"id":39,"q":"自動車も軽車両も、片側二車線の道路の交差点では、青信号であれば直進や左折、右折ができる。","a":false,"tip":"軽車両は右折方法が異なる（二段階右折）。"},{"id":40,"q":"こう配の急な上り坂では、追い越しを禁止されていない。","a":true,"tip":"急な上り坂そのものは追越し禁止場所ではない。"},{"id":41,"q":"坂の頂上付近では、上り坂では追い越しを禁止されているが、下り坂では追い越しを禁止されていない。","a":true,"tip":"坂の頂上付近は上り側で追越し禁止。急な下り坂は別途禁止。"},{"id":42,"q":"交差点付近で駐停車禁止となるのは、交差点とその端から３メートル以内の場所である。","a":false,"tip":"交差点とその側端から5m以内が駐停車禁止。"},{"id":43,"q":"上り坂の頂上付近や、こう配の急な下り坂では、徐行しなければならない。","a":true,"tip":"上り坂の頂上付近・急な下り坂は徐行。"},{"id":44,"q":"けん引する車の前端からけん引される車の後端までの長さは、５メートル以内でなければならない。","a":false,"tip":"5mではなく25m以内。"},{"id":45,"q":"故障車の車輪をあげてけん引する場合、故障車にその車両を運転できる免許を持つものが乗らなければならない。","a":false,"tip":"車輪を上げてけん引する場合、故障車に運転者は不要。"},{"id":46,"q":"故障車を車輪をあげずけん引する場合、ロープには他の人に分かりやすいように、赤い布をつけなければならない。","a":false,"tip":"赤ではなく白い布。"},{"id":47,"q":"普通自動車は、二台の故障車をけん引することができる。","a":true,"tip":"普通自動車は故障車2台まで。"},{"id":48,"q":"高速自動車国道の本線車道における普通自動車（三輪を除く）の最高速度は、すべて１００キロメートル毎時である。","a":false,"tip":"道路構造や標識により100km/hでない区間もある。"},{"id":49,"q":"安全地帯のない停留所で止まっている路面電車に乗り降りする人がいても、路面電車との間に1.5メートル以上の間隔を保つことができるときは、徐行してその側方を通過することができる。","a":false,"tip":"乗降客がいる間は原則停止して待つ。"},{"id":50,"q":"前車が一般原動機付自転車を追い越そうとしているときに、その車を追い越すと二重追越しになる。","a":false,"tip":"二重追越しは、前車が自動車を追越し中のときにその前車を追越す場合。"},{"id":51,"q":"高速道路では、登坂車線も本線車道に含まれる。","a":false,"tip":"登坂車線は本線車道に含まれない。"},{"id":52,"q":"徐行しようとするときと、停止しようとするときの手の合図の方法は同じである。","a":true,"tip":"徐行・停止の手信号は同じ。"},{"id":53,"q":"普通免許や二輪免許、原付免許を取得して１年以内に交通違反などを犯し、違反点数の合計が３点以上になったとき（１回の違反で３点に達したときを除く）は初心運転者講習を受けることができる。","a":true,"tip":"初心運転者期間中に基準点数へ達すると初心運転者講習の対象。"},{"id":54,"q":"二輪車でブレーキをかけるときは、前輪ブレーキと後輪ブレーキを同時にかけるのがよい。","a":true,"tip":"基本は前後ブレーキを同時に使う。"},{"id":55,"q":"高速道路で故障などのためやむを得ず駐車する場合は、車の後方の路上に停止表示機材を置き、後続車の運転者にわかるようにしなければならないが、歩行が困難な場合は停止表示灯を車の側方の路上に置いてもよい。","a":true,"tip":"後続車に分かるよう停止表示機材を設置する。"},{"id":56,"q":"舗装道路では、雨の降り始めのほうが、降っている最中より、スリップしやすい。","a":true,"tip":"降り始めはほこりや油が浮き、特に滑りやすい。"},{"id":57,"q":"高速自動車国道の本線車道が、道路の構造上往復の方向別に分離されていない区間では、普通自動車の最高速度は、６０キロメートル毎時である。","a":true,"tip":"非分離区間は一般道路に近い扱いで60km/h。"},{"id":58,"q":"オートマチック車は、チェンジレバーがＰ（パーキング）やＮ（ニュートラル）以外の位置ではエンジンがかからない。","a":true,"tip":"通常PまたはNで始動できる。"},{"id":59,"q":"自動二輪車や一般原動機付自転車の荷台には、どちらも６０キログラムまで荷物を積むことができる。","a":false,"tip":"二輪車は60kg、原付は30kg。"},{"id":60,"q":"サイドミラーよりルームミラーのほうが後続車との距離を正しく目測することができる。","a":true,"tip":"ルームミラーは一般に平面鏡で、距離感を把握しやすい。"},{"id":61,"q":"自動車の運転は、認知、判断、操作に分けられ、このうちとくに大切なのは認知で、交通事故の大半は認知の誤りによって起きている。","a":true,"tip":"事故防止ではまず正しく認知することが重要。"},{"id":62,"q":"４００ccの自動二輪車に荷物を積む場合の高さ制限は地上２メートル以下とされている。","a":true,"tip":"自動二輪車の積載物の高さは地上2m以下。"},{"id":63,"q":"乗車定員１０人の自動車は普通免許で運転することができる。","a":true,"tip":"普通免許の乗車定員は10人以下。"},{"id":64,"q":"検査標章の色と数字は検査を受けた年月を表す。","a":false,"tip":"検査標章は自動車検査証の有効期間満了時期を示す。"},{"id":65,"q":"通常の路側帯（白の実線1本）の設けられている道路で駐車する場合、左側に0.75メートル以上の余地を空けることができれば、路側帯の中へ入って駐車することができる。","a":true,"tip":"通常の路側帯では0.75m以上の歩行者用余地を空ける。"},{"id":66,"q":"乗車定員５人の乗用車には、運転者の他に１２歳の子供６人を乗せることができる。","a":true,"tip":"12歳未満の子供3人を大人2人として計算。"},{"id":67,"q":"タイヤの空気圧が低い状態で高速走行を続けると、スタンディングウエーブ現象が起きる危険性がある。","a":true,"tip":"空気圧不足＋高速走行でスタンディングウェーブの危険。"},{"id":68,"q":"駐車禁止の標識は「規制標識」であり、停止線や中央線は「指示標示」である。","a":true,"tip":"駐車禁止＝規制標識。停止線・中央線＝指示標示。"},{"id":69,"q":"車の下から冷却水やオイルが漏れているときは故障が考えられるので運転してはならないが、空調装置からの排水は異常ではない。","a":true,"tip":"エアコン排水は正常な場合がある。"},{"id":70,"q":"オートマチック車のクリープ現象とは、チェンジレバーがＤレンジに入っている状態でアクセルを踏まなくても動き出す現象をいう。","a":true,"tip":"DやRでアクセルを踏まなくてもゆっくり動くのがクリープ。"},{"id":71,"q":"時速６０キロメートル毎時の速度で衝突したときは、ビルの５階（約１４メートル）から落ちた場合と同程度の衝撃力を受けることになる。","a":true,"tip":"60km/hの衝突は非常に大きな衝撃。"},{"id":72,"q":"故障車をロープでけん引する場合はけん引免許を持っていなくても運転することができる。","a":true,"tip":"故障車の応急けん引はけん引免許不要。"},{"id":73,"q":"往復の方向別に分離されている高速自動車国道での最低速度は５０キロメートル毎時である。","a":true,"tip":"本線車道の法定最低速度は50km/h。"},{"id":74,"q":"総排気量１２５ccの自動二輪車は高速自動車国道だけでなく、自動車専用道路も通行することができない。","a":false,"tip":"125cc以下は高速自動車国道は不可だが、自動車専用道路は道路によって通行可否が異なる。"},{"id":75,"q":"消火栓から５メートル以内の場所では駐停車が禁止されている。","a":true,"tip":"消火栓・防火水槽などの周辺5mは駐停車禁止。"},{"id":76,"q":"ＡＢＳ（アンチロック・ブレーキシステム）のついている車で急ブレーキをかけた場合にブレーキペダルが小刻みに振動するのは異常ではない。","a":true,"tip":"ABS作動時のペダル振動は正常。"},{"id":77,"q":"霧の中を運転するときは、見通しをよくするため、前照灯を上向きにする。","a":false,"tip":"霧では上向きライトは反射して見えにくくなる。下向きや霧灯を使う。"},{"id":78,"q":"走行中に急ブレーキをかけて後輪が右へ横すべりを始めたときは、ハンドルを左に切るようにする。","a":false,"tip":"横すべりした方向へハンドルを切る。後輪が右へ滑れば右へ切る。"},{"id":79,"q":"オートマチック車がエンストした場合は、ギアをＤやＲに入れて、セルモーターを使って動かす。","a":false,"tip":"AT車はセルモーターで車を動かすことはできない。"},{"id":80,"q":"小型特殊自動車は、自動車専用道路を通行できる。","a":true,"tip":"小型特殊は高速自動車国道は不可だが、自動車専用道路は通行できる場合がある。"},{"id":81,"q":"高速道路のランプウェイ（入口から本線までの道路）は、本線車道ではないため、制限速度に注意せねばならない。","a":true,"tip":"最高速度・最低速度の規定は本線車道が対象。"},{"id":82,"q":"自動車専用道路の最高速度は、標識が特にない場合、時速１００キロメートルである。","a":false,"tip":"自動車専用道路は原則60km/h。"},{"id":83,"q":"高速自動車国道の大型乗用車の最高速度は、時速１００キロメートルである。","a":true,"tip":"大型乗用車は100km/h。大型貨物車は90km/h。"},{"id":84,"q":"交通事故の際は、直ちに負傷者を救護する。","a":false,"tip":"二次事故防止のため、まず車を安全な場所に停止させる。"},{"id":85,"q":"道路の前方に障害物があり、対向車が来ている場合は、距離が十分あり対向車の速度が遅くとも、対向車を待ってから障害物を避けるべきである。","a":false,"tip":"十分な距離があり安全なら、追越しと同じ要領で障害物を避けられる。"},{"id":86,"q":"踏切を通行するときは、左端に寄って一気に通行する。","a":false,"tip":"脱輪防止のため、踏切ではやや中央寄りを通行する。"},{"id":87,"q":"踏切用の信号が青色のとき、安全を確認すれば、一時停止しなくてもよい。","a":true,"tip":"踏切信号が青なら安全確認のうえ一時停止不要。"},{"id":88,"q":"道路の片側に障害物がある場合、行き違うときは、障害物のある側と反対側の車が減速や一時停止をして、対向車に道を譲る。","a":false,"tip":"障害物のある側が減速・停止して、反対側の車に道を譲る。"},{"id":89,"q":"総排気量125ccかつ出力制限のないバイクは、乗車装置があれば二人乗りをすることができる。","a":true,"tip":"125ccかつ出力制限のない二輪車は普通自動二輪車に該当し、条件を満たせば二人乗り可。"},{"id":90,"q":"自動二輪車を選ぶときは、サイドスタンドを楽に立てられるものを選ぶと良い。","a":false,"tip":"サイドスタンドではなくセンタースタンドを楽に立てられるものを選ぶ。"},{"id":91,"q":"大型自動二輪車の最大積載量は30kgである。","a":false,"tip":"大型・普通自動二輪車は60kg。30kgは原付。"},{"id":92,"q":"総排気量が125cc以下の二輪車で、最高出力が5.0キロワット以下のものは、一般原動機付自転車に含まれる。","a":false,"tip":"125cc以下の二輪車は最高出力4.0kW以下なら一般原付に含まれる。"},{"id":93,"q":"普通自動二輪車免許（小型限定）を取得した人は、総排気量250ccの自動二輪車を運転することはできない。","a":true,"tip":"小型限定は125cc以下のみ。"},{"id":94,"q":"普通自動二輪車免許を持っている人は、総排気量600ccの二輪車を運転することができる。","a":false,"tip":"普通自動二輪免許は400cc以下。"},{"id":95,"q":"歩道がある道路で、車道の端に沿って駐車した。","a":true,"tip":"歩道がある道路では、車道の左端に沿って駐車する。"},{"id":96,"q":"自車が優先道路を通行している場合を除き、交差点とその手前30メートル以内の場所では、前の車を追い越してはならない。","a":true,"tip":"交差点とその手前30mは追越し禁止。優先道路通行中は例外。"},{"id":97,"q":"路面電車を追い越す場合は、原則としてその右側を通行する。","a":false,"tip":"原則として路面電車の左側を通行する。"},{"id":98,"q":"警笛鳴らせの標識のある場所では、見通しのきかない交差点、曲がり角、上り坂の頂上を通るときは、警音器を使用しなければならない。","a":false,"tip":"「警笛鳴らせ」の標識では、その場所で警音器を鳴らす。条件付きで鳴らすのは「警笛区間」。"},{"id":99,"q":"原動機付自転車は、自動車には含まれない。","a":true,"tip":"道路交通法上、原動機付自転車と自動車は別区分。"},{"id":100,"q":"転回の合図を行う時期は、転回の約30メートル手前である。","a":true,"tip":"右左折・転回の合図はその地点の30m手前。"},{"id":101,"q":"フットブレーキが故障したため、ハンドブレーキを使って停止を試みた。","a":true,"tip":"フットブレーキ故障時は、ハンドブレーキを徐々に使うなどして停止を試みる。"},{"id":102,"q":"この標示は、立入り禁止部分を表し、車が通行してはいけない部分であることを示す。","a":false,"tip":"画像の標示は安全地帯。立入り禁止部分は別の標示。"},{"id":103,"q":"黄色の中央線があるところでは、右折をしても構わない。","a":true,"tip":"黄色の中央線は追越しのための右側部分へのはみ出しを禁止。右折はできる。"},{"id":104,"q":"原動機付自転車は、自動車には含まれない。","a":true,"tip":"道路交通法上、原動機付自転車と自動車は別区分。"},{"id":105,"q":"普通自動車には、車体から左右に0.15メートルまではみ出して荷物を積むことができる。","a":false,"tip":"普通自動車は車体幅の10分の1以下まで。左右各0.15mは二輪車・原付の基準。"},{"id":106,"q":"原則として、車の右側に3.5メートル以上の余地のない場所で駐車してはならない。","a":true,"tip":"駐車するときは、原則として車の右側に3.5m以上の余地が必要。"},{"id":107,"q":"夜間、駐車禁止でない場所に6時間駐車した。","a":true,"tip":"道路上での長時間駐車は夜間8時間以上が禁止。6時間ならこの制限内。"},{"id":108,"q":"免許証を携帯することを忘れて自動車を運転すると、免許不携帯になる。","a":true,"tip":"運転時は免許証の携帯が必要。"},{"id":109,"q":"右左折をしない場合、交差点を通行するときに徐行する必要はない。","a":false,"tip":"見通しのきかない交通整理のない交差点などでは、直進でも徐行が必要な場合がある。"},{"id":110,"q":"交差点とその前後30メートル以内の場所では、前の車を追い越してはならない。","a":false,"tip":"交差点とその手前30mが原則追越し禁止。向こう側30mは含まれない。"},{"id":111,"q":"右折の合図は、その行為をしようとする約3秒前で行う。","a":false,"tip":"右左折の合図は30m手前。3秒前は進路変更。"},{"id":112,"q":"路線バスの専用通行帯は、原動機付自転車や、小型特殊自動車は通行できる。","a":true,"tip":"路線バス専用通行帯は原付や小型特殊なども通行できる。"},{"id":113,"q":"交差点で警察官が両腕を垂直に上げているとき、警察官の身体に対面する方向の交通に対しては、赤色の灯火信号と同じ意味である。","a":true,"tip":"警察官の身体に対面する交通は赤信号と同じ意味。"},{"id":114,"q":"歩道は軽車両以外の車は通行してはならない。","a":false,"tip":"軽車両も歩道を自由に通行できるわけではない。"},{"id":115,"q":"歩行者のそばを通るときは、必ず徐行せねばならない。","a":false,"tip":"安全な間隔をとることができれば、徐行する必要はない。"},{"id":116,"q":"車両通行帯のない道路では、車は、道路の左に寄って通行する。","a":true,"tip":"原則として道路の左側に寄って通行する。"},{"id":117,"q":"追い越しが終わったので、すぐに追い越した車の前に入った。","a":false,"tip":"追越し後は十分な車間距離を確保してから戻る。"},{"id":118,"q":"夜間、一般道路で普通自動車を駐車するときは、50メートル後方からはっきり見える場合は、駐車灯や尾灯をつけなくてよい。","a":true,"tip":"50m後方から明瞭に確認できる場合などは灯火不要の例外がある。"},{"id":119,"q":"通行している道路が優先道路のときは、左右の見通しがきかない交差点であっても、徐行する必要はない。","a":true,"tip":"優先道路を通行している場合は、この徐行義務の例外。"},{"id":120,"q":"車両横断禁止の標識がある場所でも、右折することはできる。","a":true,"tip":"車両横断禁止は道路外施設へ横断する行為などを禁止。交差点での右折とは別。"},{"id":121,"q":"乾いた舗装道路で、時速40キロメートルで走行中の車は、25メートル以上の車間距離をとることが必要である。","a":true,"tip":"時速30〜60kmでは目安として速度−15m。40−15＝25m。"},{"id":122,"q":"駐車場や車庫などの出入り口から3メートル以内の場所では駐車が禁止されている。","a":true,"tip":"駐車場・車庫等の出入口から3m以内は駐車禁止。"},{"id":123,"q":"普通免許を受けている者は、最大積載量3トン未満の貨物自動車を運転できる。","a":false,"tip":"普通免許は最大積載量2t未満。2t以上4.5t未満は準中型。"},{"id":124,"q":"前方の信号が赤色であったが、青色の矢印信号が点灯したため、自動二輪車を発進させた。","a":true,"tip":"自動二輪車も青色の矢印信号に従う。"},{"id":125,"q":"交差点とその端から５メートル以内の場所は、駐停車禁止である。","a":true,"tip":"交差点とその端から5m以内は駐停車禁止。"},{"id":126,"q":"事故を起こした際の刑事・民事・行政上の責任は、全て運転者が負う。","a":true,"tip":"運転者には刑事・民事・行政上の責任が生じ得る。"},{"id":127,"q":"道路上では、原則として、同じ場所に昼間引き続いて８時間以上駐車してはならない。","a":false,"tip":"昼間は12時間以上、夜間は8時間以上の長時間駐車が禁止。"},{"id":128,"q":"深い水たまりを通った直後は、ブレーキの効きが悪くなることがあるので、ブレーキの効きを確かめる必要がある。","a":true,"tip":"水たまり通過後は軽くブレーキをかけて効きを確認する。"},{"id":129,"q":"雨天のときにブレーキのききが悪いときは、ウォーターフェード現象が起きていることが考えられるから、軽くブレーキを数回踏んでブレーキ板を乾かすとよい。","a":true,"tip":"雨天時にブレーキがぬれて効きが悪い場合は、軽く数回踏んで乾かす。"},{"id":130,"q":"原動機付自転車が二段階右折をするときは、周囲への混乱に配慮し、右折の合図を出してはならない。","a":false,"tip":"二段階右折でも右折の合図を出す。"},{"id":131,"q":"前車を追い越すとき、対向車との正面衝突を回避するため、やむをえずできるだけ対向車との側方距離を狭くして通行した。","a":false,"tip":"対向車がいるなど安全に追越しできない状況では追越しをしてはならない。"},{"id":132,"q":"夜間、一般道路に普通自動車を駐停車する場合は、車の後方に停止表示器材を置けば、非常点滅表示灯等をつける必要はない。","a":true,"tip":"正しい。一般道路で普通自動車を駐停車する場合は、車の後方に停止表示器材を置けば、非常点滅表示灯等をつける必要はない。なお、高速道路で駐停車する場合は、停止表示器材に加えて非常点滅表示灯等も必要。"},{"id":133,"q":"信号機がある踏切で信号機が青色を示している場合でも、車は直前で一時停止しなければならない。","a":false,"tip":"踏切に信号機があり、その信号が青色を示しているときは、左右の安全を確認すれば一時停止する必要はない。"},{"id":134,"q":"故障車をロープやクレーンでけん引する場合は、けん引免許は必要ない。","a":true,"tip":"故障車のけん引は、通常のトレーラーけん引とは扱いが異なり、けん引免許は不要。"},{"id":135,"q":"長い下り坂でブレーキを頻繁に使うと、ハイドロプレーニング現象が起きることがあるので、エンジンブレーキを十分に活用する。","a":false,"tip":"長い下り坂でブレーキを多用した場合に起こりやすいのはハイドロプレーニング現象ではなく、ベーパーロック現象やフェード現象。エンジンブレーキを活用する。"},{"id":136,"q":"横断歩道や自転車横断帯の前後30メートルは、追い越し禁止である。","a":false,"tip":"追越しが禁止されるのは、横断歩道や自転車横断帯とその手前30メートル。『前後30メートル』ではない。"},{"id":137,"q":"こう配の急な坂の頂上付近は駐停車禁止だが、こう配の急な坂の途中は駐停車禁止ではない。","a":false,"tip":"こう配の急な坂は、頂上付近だけでなく途中も駐停車禁止。"},{"id":138,"q":"自家用の普通乗用自動車は、1年ごとに定期点検を行わなければならない。","a":true,"tip":"自家用の普通乗用自動車は、1年ごとに定期点検を行う必要がある。"},{"id":139,"q":"貨物自動車の荷台には、荷物の積み下ろしのための最小限必要な人のみ例外的に乗ってよい。","a":false,"tip":"荷台に乗ることが例外的に認められるのは、荷物を見張るための最小限必要な人。積み下ろしのためという表現は誤り。警察署長の許可を受けた場合も認められる。"},{"id":140,"q":"5分を超える人の乗り降りのための停止は、停車である。","a":true,"tip":"人の乗り降りのための停止は、5分を超えても駐車ではなく停車として扱われる。"},{"id":141,"q":"乗り降りのために停止している通学バスのそばを通るときは、徐行して進行すればよい。","a":true,"tip":"乗り降りのために停止している通学バスのそばを通るときは、一時停止または徐行して進行する。徐行して進行するのも正しい。"},{"id":142,"q":"普通自動車には、車体から左右に0.15メートルまではみ出して荷物を積むことができる。","a":false,"tip":"普通自動車は、車体の左右それぞれについて車体の幅の10分の1以下まで、はみ出して荷物を積むことができる。左右それぞれ0.15mという基準は二輪車・原動機付自転車。"},{"id":143,"q":"自家用の普通自動車は、1日1回、運行前に日常点検を行わなければならない。","a":false,"tip":"自家用普通自動車の日常点検は、1日1回と一律に決まっているわけではなく、運行状態や走行距離などを考えて適切な時期に行う。"},{"id":144,"q":"白杖を持った人の傍を通ったので、徐行して通行を妨げないようにした。","a":true,"tip":"白杖や黄色の杖を持つ人などのそばを通るときは、一時停止または徐行して、その通行を妨げないようにする。"}];
+const KEY = 'gakkaQuiz47_state_v3';
+const initialWeak = [];
+
+function blankItem(){ return {attempts:0, wrongCount:0, lastCorrect:null, weak:false, lastAnsweredAt:null}; }
+function freshState(){
+  const s={ items:{}, mode:'all', range:'allrange', index:0 };
+  QUESTIONS.forEach(q=>s.items[q.id]=blankItem());
+  return s;
+}
+function loadState(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(!raw) return freshState();
+    const s=JSON.parse(raw);
+    if(!s.items) return freshState();
+    if(!s.mode) s.mode='all';
+    if(!s.range) s.range='allrange';
+    if(typeof s.index!=='number') s.index=0;
+    QUESTIONS.forEach(q=>{
+      if(!s.items[q.id]) s.items[q.id]=blankItem();
+      if(typeof s.items[q.id].weak!=='boolean') s.items[q.id].weak=(s.items[q.id].wrongCount||0)>0;
+    });
+    return s;
+  }catch(e){ return freshState(); }
+}
+let state=loadState();
+let answeredThisView=false;
+
+function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+function inRange(q){
+  if(state.range==='allrange') return true;
+  const [a,b]=state.range.split('-').map(Number);
+  return q.id>=a && q.id<=b;
+}
+function modeList(){
+  let qs=QUESTIONS.filter(inRange);
+  if(state.mode==='wrong') qs=qs.filter(q=>state.items[q.id]?.weak===true);
+  else if(state.mode==='unanswered') qs=qs.filter(q=>(state.items[q.id]?.attempts||0)===0);
+  return qs;
+}
+function setMode(m){
+  state.mode=m; state.index=0; answeredThisView=false; save(); render();
+}
+function setRange(r){
+  state.range=r; state.index=0; answeredThisView=false; save(); render();
+}
+function updateModeButtons(){
+  ['all','wrong','unanswered'].forEach(m=>{
+    const id=m==='all'?'allBtn':m==='wrong'?'wrongBtn':'unansweredBtn';
+    document.getElementById(id).classList.toggle('active',state.mode===m);
+  });
+  document.getElementById('rangeSelect').value=state.range;
+}
+function aggregate(){
+  let correct=0,incorrect=0,answered=0,weak=0;
+  QUESTIONS.forEach(q=>{
+    const x=state.items[q.id]||blankItem();
+    correct += Math.max(0,(x.attempts||0)-(x.wrongCount||0));
+    incorrect += x.wrongCount||0;
+    if((x.attempts||0)>0) answered++;
+    if(x.weak) weak++;
+  });
+  document.getElementById('correctStat').textContent=correct;
+  document.getElementById('incorrectStat').textContent=incorrect;
+  document.getElementById('answeredStat').textContent=answered;
+  document.getElementById('weakStat').textContent=weak;
+}
+function render(){
+  updateModeButtons(); aggregate();
+  const list=modeList();
+  const app=document.getElementById('app');
+  if(!list.length){
+    document.getElementById('bar').style.width='0%';
+    app.innerHTML=`<div class="empty"><h2>対象の問題がありません</h2><p class="small">モードや問題範囲を変更してください。</p></div>`;
+    return;
+  }
+  if(state.index>=list.length) state.index=0;
+  if(state.index<0) state.index=0;
+  const q=list[state.index];
+  const x=state.items[q.id]||blankItem();
+  const status=x.weak?'<span class="badge wrong">苦手</span>':(x.attempts?'<span class="badge mastered">回答済み</span>':'');
+  app.innerHTML=`
+    <div class="meta"><span>${state.index+1} / ${list.length}　（問題番号 ${q.id}）</span><span>${status}</span></div>
+    <div class="q">${q.q}</div>
+    <div class="answers">
+      <button class="answer" id="yesBtn" onclick="answer(true)">○</button>
+      <button class="answer" id="noBtn" onclick="answer(false)">×</button>
+    </div>
+    <div id="feedback" class="feedback"></div>
+    <div class="actions">
+      <button class="warn" onclick="toggleWeak(${q.id})">${x.weak?'苦手登録を解除':'苦手登録'}</button>
+      <button class="secondary" onclick="prev()">前へ</button>
+      <button class="primary" onclick="next()">次へ</button>
+    </div>`;
+  document.getElementById('bar').style.width=((state.index+1)/list.length*100)+'%';
+  answeredThisView=false;
+}
+function answer(userAnswer){
+  const list=modeList();
+  if(!list.length) return;
+  const q=list[state.index];
+  const x=state.items[q.id];
+  if(answeredThisView) return;
+  answeredThisView=true;
+  x.attempts=(x.attempts||0)+1;
+  const ok=userAnswer===q.a;
+  if(!ok){
+    x.wrongCount=(x.wrongCount||0)+1;
+    x.weak=true;
+  }
+  x.lastCorrect=ok;
+  x.lastAnsweredAt=Date.now();
+  save(); aggregate();
+  document.getElementById('yesBtn').disabled=true;
+  document.getElementById('noBtn').disabled=true;
+  document.getElementById(userAnswer?'yesBtn':'noBtn').classList.add('selected');
+  const f=document.getElementById('feedback');
+  f.className='feedback '+(ok?'good':'bad');
+  f.innerHTML=`<strong>${ok?'正解！':'不正解'}</strong><div>正解：${q.a?'○':'×'}</div><div class="tip">理解のコツ：${q.tip}</div>`;
+}
+function next(){
+  const list=modeList();
+  if(!list.length) return;
+  if(state.index<list.length-1) state.index++; else state.index=0;
+  answeredThisView=false; save(); render();
+}
+function prev(){
+  const list=modeList();
+  if(!list.length) return;
+  if(state.index>0) state.index--; else state.index=list.length-1;
+  answeredThisView=false; save(); render();
+}
+function toggleWeak(id){
+  const x=state.items[id];
+  x.weak=!x.weak;
+  save();
+  if(state.mode==='wrong' && !x.weak){
+    const list=modeList();
+    if(state.index>=list.length) state.index=Math.max(0,list.length-1);
+  }
+  render();
+}
+window.addEventListener('load',render);
+</script>
+</body>
+</html>
